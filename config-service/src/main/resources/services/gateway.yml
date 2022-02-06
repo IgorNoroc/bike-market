@@ -1,0 +1,49 @@
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+
+  routes:
+    auth-service:
+        path: /auth/**
+        serviceId: auth-service
+        stripPrefix: false
+
+    catalog-service:
+        path: /catalog/**
+        serviceId: catalog-service
+        stripPrefix: false
+
+    shopping-cart-service:
+        path: /shopping-cart-service/**
+        serviceId: shopping-cart-service
+        stripPrefix: false
+
+server:
+  port: 8989
+
+
+Eureka
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+  server:
+    peer-node-read-timeout-ms: 100000
