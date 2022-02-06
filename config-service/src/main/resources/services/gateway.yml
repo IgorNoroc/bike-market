@@ -36,7 +36,6 @@ server:
   port: 8989
 
 
-Eureka
 eureka:
   instance:
     preferIpAddress: true
