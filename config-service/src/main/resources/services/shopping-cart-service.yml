@@ -3,7 +3,7 @@ spring:
     database: POSTGRESQL
     properties.hibernate.temp.use_jdbc_metadata_defaults: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
   datasource:
     platform: postgres
@@ -12,12 +12,12 @@ spring:
     password: pasword
     driver-class-name: org.postgresql.Driver
 
-server:
-  servlet:
-    context-path: /shopping-cart
-  port: 8083
+  server:
+    servlet:
+      context-path: /shopping-cart
+    port: 8083
 
- rabbitmq:
+  rabbitmq:
      port: 5672
      host: rabbitmq
      username: guest
