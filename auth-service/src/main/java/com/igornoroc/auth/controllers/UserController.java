@@ -18,12 +18,12 @@ public class UserController {
         );
     }
 
-    @GetMapping("/find_user{id}")
+    @GetMapping("/find_user/{id}")
     public User findUser(@PathVariable Long id) {
         return userService.find(id);
     }
 
-    @DeleteMapping("/delete_user{id}")
+    @DeleteMapping("/delete_user/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.delete(id);
         return String.format(
