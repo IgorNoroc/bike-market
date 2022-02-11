@@ -6,6 +6,7 @@ import com.igornoroc.auth.model.User;
 import com.igornoroc.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,11 +39,13 @@ public class UserController {
                 "user with email %s was been authentication , token : %s ", user.getEmail(), token));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/find_user/{id}")
     public User findUser(@PathVariable Long id) {
         return userService.find(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete_user/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.delete(id);
