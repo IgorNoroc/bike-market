@@ -2,7 +2,10 @@ package com.igornoroc.auth.service.impl;
 
 import com.igornoroc.auth.exceptions.UserAlreadyExistsExceptions;
 import com.igornoroc.auth.exceptions.UserNotFoundException;
+import com.igornoroc.auth.model.Role;
+import com.igornoroc.auth.model.Status;
 import com.igornoroc.auth.model.User;
+import com.igornoroc.auth.repository.RoleRepo;
 import com.igornoroc.auth.repository.UserRepo;
 import com.igornoroc.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +20,12 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
     private final BCryptPasswordEncoder encoder;
 
     @Override
     public User save(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
+        setDefaultValues(user);
         try {
             return userRepo.save(user);
         } catch (Exception e) {
@@ -48,6 +52,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         userRepo.deleteById(id);
+    }
+
+    private void setDefaultValues(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        Role role = roleRepo.findByName("ROLE_USER");
+        user.getRoles().add(role);
+        user.setStatus(Status.ACTIVE);
     }
 
     @Override
