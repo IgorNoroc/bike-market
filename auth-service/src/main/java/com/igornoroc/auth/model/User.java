@@ -3,29 +3,19 @@ package com.igornoroc.auth.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @Data
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BasicEntity {
     @Column(unique = true)
     private String email;
     private String password;
-    @Column(updatable = false)
-    private OffsetDateTime created;
-    private OffsetDateTime update;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
 
-    @PrePersist
-    private void created() {
-        created = OffsetDateTime.now();
-    }
-
-    @PreUpdate
-    private void updated() {
-        update = OffsetDateTime.now();
-    }
 }

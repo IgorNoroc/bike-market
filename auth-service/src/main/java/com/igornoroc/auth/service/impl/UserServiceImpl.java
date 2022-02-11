@@ -1,5 +1,6 @@
 package com.igornoroc.auth.service.impl;
 
+import com.igornoroc.auth.exceptions.UserAlreadyExistsExceptions;
 import com.igornoroc.auth.exceptions.UserNotFoundException;
 import com.igornoroc.auth.model.User;
 import com.igornoroc.auth.repository.UserRepo;
@@ -19,9 +20,13 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder encoder;
 
     @Override
-    public User saveOrUpdate(User user) {
+    public User save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        try {
+            return userRepo.save(user);
+        } catch (Exception e) {
+            throw new UserAlreadyExistsExceptions();
+        }
     }
 
     @Override

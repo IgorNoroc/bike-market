@@ -12,9 +12,9 @@ public class UserController {
 
     @PostMapping("/save")
     public String save(@RequestBody User user) {
-        userService.saveOrUpdate(user);
+        userService.save(user);
         return String.format(
-                "user %s was been updated", user.getEmail()
+                "user %s was been saved", user.getEmail()
         );
     }
 
